@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import React, { useState, useRef } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Gallery from "./components/Gallery";
 import SearchBar from "./components/SearchBar";
@@ -65,8 +65,6 @@ return (
           <Route path='/artist/:id' element={<ArtistView/>}/>
         </Routes>
       </Router>
-      <AlbumView />
-      <ArtistView />
     </div>
   );
 }
