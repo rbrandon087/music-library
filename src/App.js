@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, Suspense } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Gallery from "./components/Gallery";
 import SearchBar from "./components/SearchBar";
@@ -6,6 +6,7 @@ import AlbumView from "./components/ArtistView";
 import ArtistView from "./components/AlbumView";
 import { DataContext } from "./components/contexts/DataContext";
 import { SearchContext } from "./components/contexts/SearchContext";
+import { createResource as fetchData } from "./helper";
 import "./App.css";
 
 function App() {
@@ -39,7 +40,11 @@ function App() {
   };
 return (
     <div className="App">
+    <SearchBar handleSearch={handleSearch}/>
       {message}
+      <Suspense fallback={<h1>Loading...</h1>}>
+          <Gallery data={data} />
+      </Suspense>
       <Router>
         <Routes>
           <Route
@@ -68,5 +73,16 @@ return (
     </div>
   );
 }
+
+const renderGallery = () => {
+  if(data) {
+      return (
+          <Suspense fallback={<Spinner />}>
+              <Gallery data={data} />
+          </Suspense>
+      )
+  }
+}
+
 
 export default App;
